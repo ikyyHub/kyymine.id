@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyy.Mine - Info Up Rank</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/minecraftia');
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://static.vecteezy.com/system/resources/thumbnails/046/602/477/small_2x/cubic-pixel-game-level-background-frame-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+            font-family: 'Minecraftia', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column; /* Agar server info bisa di atas container */
+        }
+
+        /* Detail Server di Atas Panel */
+        .server-header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .server-name {
+            color: #55FF55;
+            font-size: 24px;
+            text-shadow: 3px 3px #000;
+            margin: 0;
+        }
+        .server-ip {
+            color: #FFFF55;
+            font-size: 12px;
+            text-shadow: 2px 2px #000;
+        }
+
+        .gui-container {
+            background-color: #C6C6C6;
+            border: 4px solid #000;
+            border-top-color: #FFF;
+            border-left-color: #FFF;
+            border-right-color: #555;
+            border-bottom-color: #555;
+            padding: 25px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+
+        h2 {
+            color: #FFF;
+            text-shadow: 2px 2px #000;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .warning-text {
+            color: #333;
+            font-size: 9px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px 0;
+            background-color: #000;
+            border: 2px solid #555;
+            color: #55FF55;
+            font-family: 'Minecraftia', sans-serif;
+            text-align: center;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #A8A8A8;
+            border: 2px solid #000;
+            border-top-color: #DDD;
+            border-left-color: #DDD;
+            border-right-color: #555;
+            border-bottom-color: #555;
+            color: #EEE;
+            font-family: 'Minecraftia', sans-serif;
+            cursor: pointer;
+            text-shadow: 2px 2px #333;
+        }
+
+        #hasil {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px dashed #FFFF55;
+            color: #FFFF55;
+            font-size: 11px;
+        }
+
+        /* Detail Owner di Bawah */
+        .owner-footer {
+            margin-top: 15px;
+            font-size: 10px;
+            color: #AAA;
+            text-shadow: 1px 1px #000;
+        }
+
+        .dots::after {
+            content: '';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="server-header">
+        <h1 class="server-name">KyyMine</h1>
+        <span class="server-ip">kyymine.id</span>
+    </div>
+
+    <audio id="clickSound">
+        <source src="https://www.soundjay.com/buttons/button-16.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="gui-container">
+        <h2>INFO UP RANK</h2>
+        <span class="warning-text">Jangan sampai salah nama dan level</span>
+        
+        <input type="text" id="username" placeholder="Nama Player...">
+        <input type="number" id="inputrank" placeholder="Level Rank...">
+        
+        <button id="btnCek" onclick="startProcess()">CEK SEKARANG</button>
+
+        <p id="hasil">Menunggu input...</p>
+    </div>
+
+    <div class="owner-footer">
+        Owner Server: <span style="color: #55FF55;">kyy7zee</span>
+    </div>
+    
+    <script>
+        function startProcess() {
+            const audio = document.getElementById("clickSound");
+            audio.currentTime = 0;
+            audio.play();
+
+            let nama = document.getElementById("username").value;
+            let diamond = document.getElementById("inputrank").value;
+            let hasilEl = document.getElementById("hasil");
+            let btn = document.getElementById("btnCek");
+
+            if (nama === "" || diamond === "") {
+                hasilEl.style.color = "#FFFF55";
+                hasilEl.innerHTML = "⚠ Isi Nama & Level dulu!";
+                return;
+            }
+
+            btn.disabled = true;
+            hasilEl.style.color = "#FFFF55";
+            hasilEl.innerHTML = "Memproses Player: " + nama + "<span class='dots'></span>";
+
+            setTimeout(() => {
+                showResult(nama, diamond, hasilEl);
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function showResult(nama, diamond, hasilEl) {
+            // Logika berdasarkan papan tulis
+            if (diamond > 100) {
+                hasilEl.style.color = "#FF5555";
+                hasilEl.innerHTML = "❌ Halo " + nama + ", Maksimal angka 100!";
+            } else if (diamond >= 60) {
+                hasilEl.innerHTML = "💎 " + nama + ", Rank kamu: 60-100 hari";
+            } else if (diamond >= 45) {
+                hasilEl.innerHTML = "⚔️ " + nama + ", Rank kamu: 45-59 hari";
+            } else if (diamond >= 30) {
+                hasilEl.innerHTML = "🛡️ " + nama + ", Rank kamu: 30-44 hari";
+            } else if (diamond >= 15) {
+                hasilEl.innerHTML = "⚒️ " + nama + ", Rank kamu: 15-29 hari";
+            } else {
+                hasilEl.innerHTML = "Halo " + nama + ", Up rank terlebih dahulu!";
+            }
+        }
+    </script>
+</body>
+</html>
