@@ -3,86 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyy.Mine - List Top Rank</title>
+    <title>Kyy.Mine - Database</title>
     <style>
         @import url('https://fonts.cdnfonts.com/css/minecraftia');
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                         url('https://static.vecteezy.com/system/resources/thumbnails/046/602/477/small_2x/cubic-pixel-game-level-background-frame-vector.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            color: #fff;
-            font-family: 'Minecraftia', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: #ffffff; font-family: 'Minecraftia', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0; flex-direction: column;
         }
-        .container {
-            background-color: #C6C6C6;
-            border: 4px solid #000;
-            border-top-color: #FFF; border-left-color: #FFF;
-            padding: 20px;
-            width: 90%;
-            max-width: 400px;
-            color: #333;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        .server-header { text-align: center; margin-bottom: 10px; }
+        .server-name { color: #55FF55; font-size: 24px; text-shadow: 3px 3px #000; margin: 0; }
+        .gui-container {
+            background-color: #C6C6C6; border: 4px solid #000; border-top-color: #FFF; border-left-color: #FFF;
+            padding: 25px; width: 320px; text-align: center; box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
-        h2 { text-align: center; text-shadow: 2px 2px #AAA; font-size: 16px; margin-bottom: 20px; }
-        .section-title { background: #555; color: #fff; padding: 5px; font-size: 10px; margin-top: 15px; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
-        th, td { border: 2px solid #888; padding: 8px; text-align: left; }
-        th { background: #A8A8A8; }
-        .back-btn {
-            margin-top: 20px;
-            padding: 10px;
-            background: #55FF55;
-            border: 2px solid #000;
-            color: #000;
-            text-decoration: none;
-            font-size: 12px;
+        input {
+            width: 90%; padding: 12px 0; background-color: #000; border: 2px solid #555;
+            color: #55FF55; font-family: 'Minecraftia', sans-serif; text-align: center; margin-bottom: 15px; outline: none;
+        }
+        button {
+            width: 100%; padding: 12px; background-color: #A8A8A8; border: 2px solid #000;
+            border-top-color: #DDD; border-left-color: #DDD; color: #EEE; cursor: pointer; font-family: 'Minecraftia', sans-serif;
+        }
+        #btnListRank {
+            display: none; margin-top: 10px; padding: 12px; background-color: #5555FF;
+            border: 2px solid #000; border-top-color: #DDD; border-left-color: #DDD;
+            color: white; text-decoration: none; font-size: 11px; text-shadow: 2px 2px #000; text-align: center;
+        }
+        #hasil { margin-top: 15px; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 2px dashed #FFFF55; color: #FFFF55; font-size: 11px; min-height: 40px; }
+        
+        /* Animasi Titik-Titik */
+        .dots::after {
+            content: '';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
         }
     </style>
 </head>
 <body>
-
-    <h1 style="color: #55FF55; text-shadow: 3px 3px #000;">Kyy.Mine</h1>
-
-    <div class="container">
-        <h2>LIST TOP LEVEL & RANK</h2>
-
-        <div class="section-title">RANK DI ATAS 50</div>
-        <table id="topTable">
-            <tr><th>Player</th><th>Level</th></tr>
-        </table>
-
-        <div class="section-title">RANK DI BAWAH 50</div>
-        <table id="bottomTable">
-            <tr><th>Player</th><th>Level</th></tr>
-        </table>
+    <div class="server-header">
+        <h1 class="server-name">Kyy.Mine</h1>
+        <span style="color: #FFFF55; font-size: 12px;">kyymine.id</span>
     </div>
-
-    <a href="index.html" class="back-btn">< KEMBALI</a>
+    <div class="gui-container">
+        <h2 style="font-size: 14px; color: #333;">DATABASE PLAYER</h2>
+        <input type="text" id="username" placeholder="Nama Player...">
+        <button id="btnCek" onclick="startProcess()">CEK DATABASE</button>
+        <a href="list.html" id="btnListRank">LIST TOP LEVEL DAN RANK</a>
+        <p id="hasil">Menunggu nama...</p>
+    </div>
+    <div style="margin-top: 15px; font-size: 10px; color: #AAA;">Owner Server: <span style="color: #55FF55;">kyy7zee</span></div>
 
     <script>
-        const data = {
-            "Kyy7zee": 95, "Rizki Hasan": 95, "Apriyanto": 90, "Hadi": 80,
-            "Banin": 80, "Ruri": 80, "Iqbal": 80, "Revan": 75,
-            "Dani": 75, "Ifkar": 75, "wawan": 75, "Diandra": 75
+        const databasePlayer = {
+            "Kyy7zee": 95, "Apriyanto": 90, "Hadi": 80, "Banin": 80, "Revan": 75,
+            "Dani": 75, "Ifkar": 75, "Ruri": 80, "wawan": 75, "Diandra": 75,
+            "Iqbal": 80, "Rizki Hasan": 95
         };
 
-        const topTable = document.getElementById('topTable');
-        const bottomTable = document.getElementById('bottomTable');
+        function startProcess() {
+            let inputNama = document.getElementById("username").value;
+            let hasilEl = document.getElementById("hasil");
+            let btnList = document.getElementById("btnListRank");
+            let btnCek = document.getElementById("btnCek");
 
-        for (let player in data) {
-            let row = `<tr><td>${player}</td><td>${data[player]}</td></tr>`;
-            if (data[player] > 50) {
-                topTable.innerHTML += row;
-            } else {
-                bottomTable.innerHTML += row;
+            if (inputNama === "") {
+                hasilEl.style.color = "#FFFF55";
+                hasilEl.innerHTML = "⚠ Masukkan nama player!";
+                return;
             }
+
+            // Jalankan Animasi Loading
+            btnCek.disabled = true;
+            btnList.style.display = "none";
+            hasilEl.style.color = "#FFFF55";
+            hasilEl.innerHTML = "Mencari data " + inputNama + "<span class='dots'></span>";
+
+            setTimeout(() => {
+                if (databasePlayer[inputNama]) {
+                    let lvl = databasePlayer[inputNama];
+                    hasilEl.innerHTML = "Halo " + inputNama + "! (Level: " + lvl + ")<br>Rank: " + (lvl >= 60 ? "💎 60-100 hari" : "⚒️ 15-59 hari");
+                    btnList.style.display = "block"; // Munculkan tombol list
+                } else {
+                    hasilEl.style.color = "#FF5555";
+                    hasilEl.innerHTML = "❌ Nama tidak ditemukan!";
+                }
+                btnCek.disabled = false;
+            }, 2000); // Loading selama 2 detik
         }
     </script>
 </body>
-    </html>
-        
+</html>
