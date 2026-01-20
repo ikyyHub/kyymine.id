@@ -136,10 +136,10 @@
             "Banin": 80,
             "Revan": 75,
             "Dani": 75,
-            "Ifkar": 75,
+            "Ifkar": 30,
             "Ruri": 80,
-            "wawan": 75,
-            "Diandra": 75,
+            "wawan": 15,
+            "Diandra": 0,
             "Iqbal": 80,
             "Rizki Hasan": 95
         };
@@ -180,13 +180,13 @@
             // Logika If Else berdasarkan level dari database
             let rankText = "";
             if (diamond >= 60) {
-                rankText = "💎 Rank kamu: 60-100 hari";
+                rankText = "💎 Rank kamu: 60%-100%";
             } else if (diamond >= 45) {
-                rankText = "⚔️ Rank kamu: 45-59 hari";
+                rankText = "⚔️ Rank kamu: 45%-59%";
             } else if (diamond >= 30) {
-                rankText = "🛡️ Rank kamu: 30-44 hari";
+                rankText = "🛡️ Rank kamu: 30%-44%";
             } else if (diamond >= 15) {
-                rankText = "⚒️ Rank kamu: 15-29 hari";
+                rankText = "⚒️ Rank kamu: 15%-29%";
             } else {
                 rankText = "Up rank terlebih dahulu!";
             }
