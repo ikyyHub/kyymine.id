@@ -1,3 +1,48 @@
-<a href="list.html" style="display: block; margin-top: 10px; padding: 10px; background-color: #5555FF; border: 2px solid #000; color: white; text-decoration: none; font-size: 11px; text-shadow: 1px 1px #000;">
-    LIST TOP LEVEL DAN RANK
-</a>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyy.Mine - List Rank</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/minecraftia');
+        body {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://static.vecteezy.com/system/resources/thumbnails/046/602/477/small_2x/cubic-pixel-game-level-background-frame-vector.jpg');
+            background-size: cover; color: #fff; font-family: 'Minecraftia', sans-serif;
+            display: flex; flex-direction: column; align-items: center; padding: 20px;
+        }
+        .container { background: #C6C6C6; border: 4px solid #000; padding: 20px; width: 90%; max-width: 400px; color: #333; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .section-title { background: #555; color: #fff; padding: 5px; font-size: 10px; margin-top: 15px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
+        th, td { border: 2px solid #888; padding: 8px; text-align: center; }
+        th { background: #A8A8A8; }
+        .back-btn { margin-top: 20px; padding: 10px; background: #55FF55; border: 2px solid #000; color: #000; text-decoration: none; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1 style="color: #55FF55; text-shadow: 2px 2px #000;">Kyy.Mine</h1>
+    <div class="container">
+        <h2 style="text-align: center; font-size: 14px;">TOP LEVEL & RANK</h2>
+        <div class="section-title">LEVEL DI ATAS 50</div>
+        <table id="topTable"><tr><th>Player</th><th>Level</th></tr></table>
+        <div class="section-title">LEVEL DI BAWAH 50</div>
+        <table id="bottomTable"><tr><th>Player</th><th>Level</th></tr></table>
+    </div>
+    <a href="index.html" class="back-btn">< KEMBALI</a>
+    <script>
+        const players = {
+            "Kyy7zee": 95, "Rizki Hasan": 95, "Apriyanto": 90, "Hadi": 80,
+            "Banin": 80, "Ruri": 80, "Iqbal": 80, "Revan": 75,
+            "Dani": 75, "Ifkar": 75, "wawan": 75, "Diandra": 75
+        };
+        const topTable = document.getElementById('topTable');
+        const bottomTable = document.getElementById('bottomTable');
+        for (let name in players) {
+            let row = `<tr><td>${name}</td><td>${players[name]}</td></tr>`;
+            if (players[name] > 50) { topTable.innerHTML += row; }
+            else { bottomTable.innerHTML += row; }
+        }
+    </script>
+</body>
+    </html>
+        
