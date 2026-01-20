@@ -16,11 +16,11 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
         th, td { border: 2px solid #888; padding: 8px; text-align: center; }
         
-        /* CSS KHUSUS TOP 3 */
-        .rank-emas { color: #FFD700; font-weight: bold; text-shadow: 1px 1px #000; }
-        .rank-silver { color: #C0C0C0; font-weight: bold; text-shadow: 1px 1px #000; }
-        .rank-perunggu { color: #CD7F32; font-weight: bold; text-shadow: 1px 1px #000; }
-        .teks-normal { color: #333; } /* Level 80 ke bawah kembali jadi abu-abu/gelap */
+        /* WARNA RANK BERDASARKAN URUTAN */
+        .rank-1 { color: #FFD700; font-weight: bold; text-shadow: 1px 1px #000; } /* Emas */
+        .rank-2 { color: #C0C0C0; font-weight: bold; text-shadow: 1px 1px #000; } /* Silver */
+        .rank-3 { color: #CD7F32; font-weight: bold; text-shadow: 1px 1px #000; } /* Perunggu */
+        .teks-biasa { color: #333; } /* Abu-abu Gelap untuk yang lain */
 
         .btn-wa { display: block; margin-top: 20px; padding: 12px; background: #25D366; border: 2px solid #000; color: white; text-decoration: none; font-size: 10px; text-align: center; text-shadow: 1px 1px #000; }
         .back-btn { margin-top: 10px; padding: 10px; background: #55FF55; border: 2px solid #000; color: #000; text-decoration: none; font-size: 10px; display: inline-block; }
@@ -38,26 +38,32 @@
     <a href="index.html" class="back-btn">< KEMBALI</a>
 
     <script>
-        // Urutan Pemain
-        const players = [
+        // Daftar pemain utama
+        let players = [
             {n: "Kyy7zee", l: 95}, {n: "Rizki Hasan", l: 95}, {n: "Apriyanto", l: 90},
             {n: "Hadi", l: 80}, {n: "Banin", l: 80}, {n: "Ruri", l: 80},
             {n: "Iqbal", l: 80}, {n: "Revan", l: 75}, {n: "Dani", l: 75},
             {n: "Ifkar", l: 75}, {n: "wawan", l: 75}, {n: "Diandra", l: 75}
         ];
 
+        // Tambahkan data dari LocalStorage (jika ada pendaftaran baru)
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let val = localStorage.getItem(key);
+            players.push({n: key, l: parseInt(val)});
+        }
+
+        // Sortir ulang agar level tertinggi tetap di atas
+        players.sort((a, b) => b.l - a.l);
+
         const topTable = document.getElementById('topTable');
         players.forEach((p, index) => {
-            let styleClass = "teks-normal"; // Default teks gelap
-
-            // Penentuan Warna Berdasarkan Urutan List
-            if (index === 0) { 
-                styleClass = "rank-emas"; // Kyy7zee
-            } else if (index === 1) { 
-                styleClass = "rank-silver"; // Rizki Hasan
-            } else if (index === 2) { 
-                styleClass = "rank-perunggu"; // Apriyanto
-            }
+            let styleClass = "teks-biasa";
+            
+            // Logika Warna Top 3
+            if (index === 0) styleClass = "rank-1"; // Kyy7zee (Emas)
+            else if (index === 1) styleClass = "rank-2"; // Rizki Hasan (Silver)
+            else if (index === 2) styleClass = "rank-3"; // Apriyanto (Perunggu)
 
             let row = `<tr><td class="${styleClass}">${p.n}</td><td class="${styleClass}">${p.l}</td></tr>`;
             topTable.innerHTML += row;
