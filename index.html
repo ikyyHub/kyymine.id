@@ -55,11 +55,6 @@
     <div style="margin-top: 15px; font-size: 10px; color: #AAA;">Owner Server: <span style="color: #55FF55;">kyy7zee</span></div>
 
     <script>
-        const databasePlayer = {
-            "Kyy7zee": 95, "Rizki Hasan": 95, "Apriyanto": 90, "Hadi": 80, "Banin": 80, 
-            "Ruri": 80, "Iqbal": 80, "Revan": 75, "Dani": 75, "Ifkar": 75, "wawan": 75, "Diandra": 75
-        };
-
         function startProcess() {
             let inputNama = document.getElementById("username").value;
             let hasilEl = document.getElementById("hasil");
@@ -77,19 +72,18 @@
             hasilEl.innerHTML = "Mencari data " + inputNama + "<span class='dots'></span>";
 
             setTimeout(() => {
-                // Cek data permanen atau data dari register (LocalStorage)
-                let localData = localStorage.getItem(inputNama);
-                let lvl = databasePlayer[inputNama] || localData;
+                // Sekarang hanya mengecek data dari pendaftaran mandiri (LocalStorage)
+                let lvl = localStorage.getItem(inputNama);
 
                 if (lvl) {
                     hasilEl.innerHTML = "Halo " + inputNama + "! (Level: " + lvl + ")<br>Rank: " + (lvl >= 60 ? "💎 60-100 hari" : "⚒️ 15-59 hari");
                     btnList.style.display = "block";
                 } else {
                     hasilEl.style.color = "#FF5555";
-                    hasilEl.innerHTML = "❌ Nama tidak ditemukan!";
+                    hasilEl.innerHTML = "❌ Akun tidak ditemukan!<br>Silakan daftar terlebih dahulu.";
                 }
                 btnCek.disabled = false;
-            }, 1500);
+            }, 1200);
         }
     </script>
 </body>
