@@ -16,12 +16,13 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
         th, td { border: 2px solid #888; padding: 8px; text-align: center; }
         
-        /* Warna Khusus Top 3 */
-        .rank-1 { color: #FFD700; font-weight: bold; text-shadow: 1px 1px #000; } /* Emas */
-        .rank-2 { color: #C0C0C0; font-weight: bold; text-shadow: 1px 1px #000; } /* Perak */
-        .rank-3 { color: #CD7F32; font-weight: bold; text-shadow: 1px 1px #000; } /* Perunggu */
+        /* CSS KHUSUS TOP 3 */
+        .rank-emas { color: #FFD700; font-weight: bold; text-shadow: 1px 1px #000; }
+        .rank-silver { color: #C0C0C0; font-weight: bold; text-shadow: 1px 1px #000; }
+        .rank-perunggu { color: #CD7F32; font-weight: bold; text-shadow: 1px 1px #000; }
+        .teks-normal { color: #333; } /* Level 80 ke bawah kembali jadi abu-abu/gelap */
 
-        .btn-wa { display: block; margin-top: 20px; padding: 12px; background: #25D366; border: 2px solid #000; color: white; text-decoration: none; font-size: 10px; text-align: center; }
+        .btn-wa { display: block; margin-top: 20px; padding: 12px; background: #25D366; border: 2px solid #000; color: white; text-decoration: none; font-size: 10px; text-align: center; text-shadow: 1px 1px #000; }
         .back-btn { margin-top: 10px; padding: 10px; background: #55FF55; border: 2px solid #000; color: #000; text-decoration: none; font-size: 10px; display: inline-block; }
     </style>
 </head>
@@ -34,10 +35,10 @@
     </div>
 
     <a href="https://whatsapp.com/channel/0029Vb6QP5D4yltGa7jmQo3n" class="btn-wa">KUNJUNGI SALURAN WHATSAPP</a>
-    
     <a href="index.html" class="back-btn">< KEMBALI</a>
 
     <script>
+        // Urutan Pemain
         const players = [
             {n: "Kyy7zee", l: 95}, {n: "Rizki Hasan", l: 95}, {n: "Apriyanto", l: 90},
             {n: "Hadi", l: 80}, {n: "Banin", l: 80}, {n: "Ruri", l: 80},
@@ -47,10 +48,16 @@
 
         const topTable = document.getElementById('topTable');
         players.forEach((p, index) => {
-            let styleClass = "";
-            if(index === 0 || index === 1) styleClass = "rank-1"; // Karena 95 ada dua
-            else if(index === 2) styleClass = "rank-2";
-            else if(index === 3) styleClass = "rank-3";
+            let styleClass = "teks-normal"; // Default teks gelap
+
+            // Penentuan Warna Berdasarkan Urutan List
+            if (index === 0) { 
+                styleClass = "rank-emas"; // Kyy7zee
+            } else if (index === 1) { 
+                styleClass = "rank-silver"; // Rizki Hasan
+            } else if (index === 2) { 
+                styleClass = "rank-perunggu"; // Apriyanto
+            }
 
             let row = `<tr><td class="${styleClass}">${p.n}</td><td class="${styleClass}">${p.l}</td></tr>`;
             topTable.innerHTML += row;
