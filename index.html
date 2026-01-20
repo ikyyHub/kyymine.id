@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kyy.Mine - Info Up Rank</title>
+    <title>Kyy.Mine - Database Rank</title>
     <style>
         @import url('https://fonts.cdnfonts.com/css/minecraftia');
 
@@ -20,10 +20,9 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            flex-direction: column; /* Agar server info bisa di atas container */
+            flex-direction: column;
         }
 
-        /* Detail Server di Atas Panel */
         .server-header {
             text-align: center;
             margin-bottom: 10px;
@@ -33,11 +32,6 @@
             font-size: 24px;
             text-shadow: 3px 3px #000;
             margin: 0;
-        }
-        .server-ip {
-            color: #FFFF55;
-            font-size: 12px;
-            text-shadow: 2px 2px #000;
         }
 
         .gui-container {
@@ -53,29 +47,15 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
-        h2 {
-            color: #FFF;
-            text-shadow: 2px 2px #000;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        .warning-text {
-            color: #333;
-            font-size: 9px;
-            margin-bottom: 15px;
-            display: block;
-        }
-
         input {
             width: 90%;
-            padding: 10px 0;
+            padding: 12px 0;
             background-color: #000;
             border: 2px solid #555;
             color: #55FF55;
             font-family: 'Minecraftia', sans-serif;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             outline: none;
         }
 
@@ -101,14 +81,13 @@
             border: 2px dashed #FFFF55;
             color: #FFFF55;
             font-size: 11px;
+            min-height: 40px;
         }
 
-        /* Detail Owner di Bawah */
         .owner-footer {
             margin-top: 15px;
             font-size: 10px;
             color: #AAA;
-            text-shadow: 1px 1px #000;
         }
 
         .dots::after {
@@ -125,8 +104,8 @@
 <body>
 
     <div class="server-header">
-        <h1 class="server-name">KyyMine</h1>
-        <span class="server-ip">kyymine.id</span>
+        <h1 class="server-name">Kyy.Mine</h1>
+        <span style="color: #FFFF55; font-size: 12px;">kyymine.id</span>
     </div>
 
     <audio id="clickSound">
@@ -134,15 +113,14 @@
     </audio>
 
     <div class="gui-container">
-        <h2>INFO UP RANK</h2>
-        <span class="warning-text">Jangan sampai salah nama dan level</span>
+        <h2 style="font-size: 14px; text-shadow: 2px 2px #000;">DATABASE PLAYER</h2>
+        <p style="color: #333; font-size: 9px; margin-bottom: 10px;">Masukkan Nama Player dengan Benar</p>
         
         <input type="text" id="username" placeholder="Nama Player...">
-        <input type="number" id="inputrank" placeholder="Level Rank...">
         
-        <button id="btnCek" onclick="startProcess()">CEK SEKARANG</button>
+        <button id="btnCek" onclick="startProcess()">CEK DATABASE</button>
 
-        <p id="hasil">Menunggu input...</p>
+        <p id="hasil">Menunggu nama...</p>
     </div>
 
     <div class="owner-footer">
@@ -150,49 +128,73 @@
     </div>
     
     <script>
+        // DATA PLAYER & LEVEL (DATABASE ANDA)
+        const databasePlayer = {
+            "Kyy7zee": 95,
+            "Apriyanto": 90,
+            "Hadi": 80,
+            "Banin": 80,
+            "Revan": 75,
+            "Dani": 75,
+            "Ifkar": 75,
+            "Ruri": 80,
+            "wawan": 75,
+            "Diandra": 75,
+            "Iqbal": 80,
+            "Rizki Hasan": 95
+        };
+
         function startProcess() {
             const audio = document.getElementById("clickSound");
             audio.currentTime = 0;
             audio.play();
 
-            let nama = document.getElementById("username").value;
-            let diamond = document.getElementById("inputrank").value;
+            let inputNama = document.getElementById("username").value;
             let hasilEl = document.getElementById("hasil");
             let btn = document.getElementById("btnCek");
 
-            if (nama === "" || diamond === "") {
+            if (inputNama === "") {
                 hasilEl.style.color = "#FFFF55";
-                hasilEl.innerHTML = "⚠ Isi Nama & Level dulu!";
+                hasilEl.innerHTML = "⚠ Masukkan nama player!";
                 return;
             }
 
             btn.disabled = true;
             hasilEl.style.color = "#FFFF55";
-            hasilEl.innerHTML = "Memproses Player: " + nama + "<span class='dots'></span>";
+            hasilEl.innerHTML = "Mencari data " + inputNama + "<span class='dots'></span>";
 
             setTimeout(() => {
-                showResult(nama, diamond, hasilEl);
+                // Cek apakah nama ada di database
+                if (databasePlayer[inputNama]) {
+                    let level = databasePlayer[inputNama];
+                    showResult(inputNama, level, hasilEl);
+                } else {
+                    hasilEl.style.color = "#FF5555";
+                    hasilEl.innerHTML = "❌ Nama '" + inputNama + "' tidak ditemukan di database!";
+                }
                 btn.disabled = false;
             }, 1500);
         }
 
         function showResult(nama, diamond, hasilEl) {
-            // Logika berdasarkan papan tulis
-            if (diamond > 100) {
-                hasilEl.style.color = "#FF5555";
-                hasilEl.innerHTML = "❌ Halo " + nama + ", Maksimal angka 100!";
-            } else if (diamond >= 60) {
-                hasilEl.innerHTML = "💎 " + nama + ", Rank kamu: 60-100 hari";
+            // Logika If Else berdasarkan level dari database
+            let rankText = "";
+            if (diamond >= 60) {
+                rankText = "💎 Rank kamu: 60-100 hari";
             } else if (diamond >= 45) {
-                hasilEl.innerHTML = "⚔️ " + nama + ", Rank kamu: 45-59 hari";
+                rankText = "⚔️ Rank kamu: 45-59 hari";
             } else if (diamond >= 30) {
-                hasilEl.innerHTML = "🛡️ " + nama + ", Rank kamu: 30-44 hari";
+                rankText = "🛡️ Rank kamu: 30-44 hari";
             } else if (diamond >= 15) {
-                hasilEl.innerHTML = "⚒️ " + nama + ", Rank kamu: 15-29 hari";
+                rankText = "⚒️ Rank kamu: 15-29 hari";
             } else {
-                hasilEl.innerHTML = "Halo " + nama + ", Up rank terlebih dahulu!";
+                rankText = "Up rank terlebih dahulu!";
             }
+            
+            hasilEl.style.color = "#FFFF55";
+            hasilEl.innerHTML = "Halo " + nama + "! (Level: " + diamond + ")<br>" + rankText;
         }
     </script>
 </body>
 </html>
+
