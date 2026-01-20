@@ -15,8 +15,14 @@
         .section-title { background: #555; color: #fff; padding: 5px; font-size: 10px; margin-top: 15px; text-align: center; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; }
         th, td { border: 2px solid #888; padding: 8px; text-align: center; }
-        th { background: #A8A8A8; }
-        .back-btn { margin-top: 20px; padding: 10px; background: #55FF55; border: 2px solid #000; color: #000; text-decoration: none; font-size: 12px; }
+        
+        /* Warna Khusus Top 3 */
+        .rank-1 { color: #FFD700; font-weight: bold; text-shadow: 1px 1px #000; } /* Emas */
+        .rank-2 { color: #C0C0C0; font-weight: bold; text-shadow: 1px 1px #000; } /* Perak */
+        .rank-3 { color: #CD7F32; font-weight: bold; text-shadow: 1px 1px #000; } /* Perunggu */
+
+        .btn-wa { display: block; margin-top: 20px; padding: 12px; background: #25D366; border: 2px solid #000; color: white; text-decoration: none; font-size: 10px; text-align: center; }
+        .back-btn { margin-top: 10px; padding: 10px; background: #55FF55; border: 2px solid #000; color: #000; text-decoration: none; font-size: 10px; display: inline-block; }
     </style>
 </head>
 <body>
@@ -25,23 +31,30 @@
         <h2 style="text-align: center; font-size: 14px;">TOP LEVEL & RANK</h2>
         <div class="section-title">LEVEL DI ATAS 50</div>
         <table id="topTable"><tr><th>Player</th><th>Level</th></tr></table>
-        <div class="section-title">LEVEL DI BAWAH 50</div>
-        <table id="bottomTable"><tr><th>Player</th><th>Level</th></tr></table>
     </div>
+
+    <a href="https://whatsapp.com/channel/0029Vb6QP5D4yltGa7jmQo3n" class="btn-wa">KUNJUNGI SALURAN WHATSAPP</a>
+    
     <a href="index.html" class="back-btn">< KEMBALI</a>
+
     <script>
-        const players = {
-            "Kyy7zee": 95, "Rizki Hasan": 95, "Apriyanto": 90, "Hadi": 80,
-            "Banin": 80, "Ruri": 80, "Iqbal": 80, "Revan": 75,
-            "Dani": 75, "Ifkar": 75, "wawan": 75, "Diandra": 75
-        };
+        const players = [
+            {n: "Kyy7zee", l: 95}, {n: "Rizki Hasan", l: 95}, {n: "Apriyanto", l: 90},
+            {n: "Hadi", l: 80}, {n: "Banin", l: 80}, {n: "Ruri", l: 80},
+            {n: "Iqbal", l: 80}, {n: "Revan", l: 75}, {n: "Dani", l: 75},
+            {n: "Ifkar", l: 75}, {n: "wawan", l: 75}, {n: "Diandra", l: 75}
+        ];
+
         const topTable = document.getElementById('topTable');
-        const bottomTable = document.getElementById('bottomTable');
-        for (let name in players) {
-            let row = `<tr><td>${name}</td><td>${players[name]}</td></tr>`;
-            if (players[name] > 50) { topTable.innerHTML += row; }
-            else { bottomTable.innerHTML += row; }
-        }
+        players.forEach((p, index) => {
+            let styleClass = "";
+            if(index === 0 || index === 1) styleClass = "rank-1"; // Karena 95 ada dua
+            else if(index === 2) styleClass = "rank-2";
+            else if(index === 3) styleClass = "rank-3";
+
+            let row = `<tr><td class="${styleClass}">${p.n}</td><td class="${styleClass}">${p.l}</td></tr>`;
+            topTable.innerHTML += row;
+        });
     </script>
 </body>
     </html>
