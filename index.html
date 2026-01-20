@@ -29,6 +29,10 @@
         #btnListRank { display: none; margin-top: 10px; padding: 12px; background-color: #5555FF; border: 2px solid #000; color: white; text-decoration: none; font-size: 11px; text-align: center; }
         #hasil { margin-top: 15px; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 2px dashed #FFFF55; color: #FFFF55; font-size: 11px; min-height: 40px; }
         .register-link { color: #555; font-size: 10px; text-decoration: none; display: block; margin-top: 5px; }
+        
+        /* ANIMASI LOADING TITIK-TITIK */
+        .dots::after { content: ''; animation: blink 1s infinite; }
+        @keyframes blink { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
     </style>
 </head>
 <body>
@@ -46,20 +50,29 @@
             let inputNama = document.getElementById("username").value;
             let hasilEl = document.getElementById("hasil");
             let btnList = document.getElementById("btnListRank");
+            let btnCek = document.getElementById("btnCek");
 
             if (inputNama === "") {
                 hasilEl.innerHTML = "⚠ Masukkan nama player!";
                 return;
             }
 
-            let lvl = localStorage.getItem(inputNama);
-            if (lvl) {
-                hasilEl.innerHTML = "Halo " + inputNama + "! (Level: " + lvl + ")<br>Rank: " + (lvl >= 60 ? "💎 60-100 hari" : "⚒️ 15-59 hari");
-                btnList.style.display = "block";
-            } else {
-                hasilEl.style.color = "#FF5555";
-                hasilEl.innerHTML = "❌ Akun tidak ditemukan!";
-            }
+            // Jalankan Animasi Loading
+            btnCek.disabled = true;
+            btnList.style.display = "none";
+            hasilEl.innerHTML = "Mencari data " + inputNama + "<span class='dots'></span>";
+
+            setTimeout(() => {
+                let lvl = localStorage.getItem(inputNama);
+                if (lvl) {
+                    hasilEl.innerHTML = "Halo " + inputNama + "! (Level: " + lvl + ")<br>Rank: " + (lvl >= 60 ? "💎 60-100 hari" : "⚒️ 15-59 hari");
+                    btnList.style.display = "block";
+                } else {
+                    hasilEl.style.color = "#FF5555";
+                    hasilEl.innerHTML = "❌ Akun tidak ditemukan!";
+                }
+                btnCek.disabled = false;
+            }, 1500); // Waktu loading 1.5 detik
         }
     </script>
 </body>
