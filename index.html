@@ -26,7 +26,7 @@
         }
         button {
             width: 100%; padding: 12px; background-color: #A8A8A8; border: 2px solid #000;
-            border-top-color: #DDD; border-left-color: #DDD; color: #EEE; cursor: pointer; font-family: 'Minecraftia', sans-serif;
+            border-top-color: #DDD; border-left-color: #DDD; color: #333; cursor: pointer; font-family: 'Minecraftia', sans-serif; margin-bottom: 10px;
         }
         #btnListRank {
             display: none; margin-top: 10px; padding: 12px; background-color: #5555FF;
@@ -34,17 +34,9 @@
             color: white; text-decoration: none; font-size: 11px; text-shadow: 2px 2px #000; text-align: center;
         }
         #hasil { margin-top: 15px; padding: 10px; background: rgba(0, 0, 0, 0.5); border: 2px dashed #FFFF55; color: #FFFF55; font-size: 11px; min-height: 40px; }
-        
-        /* Animasi Titik-Titik */
-        .dots::after {
-            content: '';
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { content: '.'; }
-            33% { content: '..'; }
-            66% { content: '...'; }
-        }
+        .register-link { color: #555; font-size: 10px; text-decoration: none; display: block; margin-top: 5px; }
+        .dots::after { content: ''; animation: blink 1s infinite; }
+        @keyframes blink { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
     </style>
 </head>
 <body>
@@ -56,6 +48,7 @@
         <h2 style="font-size: 14px; color: #333;">DATABASE PLAYER</h2>
         <input type="text" id="username" placeholder="Nama Player...">
         <button id="btnCek" onclick="startProcess()">CEK DATABASE</button>
+        <a href="register.html" class="register-link">Belum punya akun? Daftar Baru</a>
         <a href="list.html" id="btnListRank">LIST TOP LEVEL DAN RANK</a>
         <p id="hasil">Menunggu nama...</p>
     </div>
@@ -63,9 +56,8 @@
 
     <script>
         const databasePlayer = {
-            "Kyy7zee": 95, "Apriyanto": 90, "Hadi": 80, "Banin": 80, "Revan": 75,
-            "Dani": 75, "Ifkar": 75, "Ruri": 80, "wawan": 75, "Diandra": 75,
-            "Iqbal": 80, "Rizki Hasan": 95
+            "Kyy7zee": 95, "Rizki Hasan": 95, "Apriyanto": 90, "Hadi": 80, "Banin": 80, 
+            "Ruri": 80, "Iqbal": 80, "Revan": 75, "Dani": 75, "Ifkar": 75, "wawan": 75, "Diandra": 75
         };
 
         function startProcess() {
@@ -75,28 +67,29 @@
             let btnCek = document.getElementById("btnCek");
 
             if (inputNama === "") {
-                hasilEl.style.color = "#FFFF55";
                 hasilEl.innerHTML = "⚠ Masukkan nama player!";
                 return;
             }
 
-            // Jalankan Animasi Loading
             btnCek.disabled = true;
             btnList.style.display = "none";
             hasilEl.style.color = "#FFFF55";
             hasilEl.innerHTML = "Mencari data " + inputNama + "<span class='dots'></span>";
 
             setTimeout(() => {
-                if (databasePlayer[inputNama]) {
-                    let lvl = databasePlayer[inputNama];
+                // Cek data permanen atau data dari register (LocalStorage)
+                let localData = localStorage.getItem(inputNama);
+                let lvl = databasePlayer[inputNama] || localData;
+
+                if (lvl) {
                     hasilEl.innerHTML = "Halo " + inputNama + "! (Level: " + lvl + ")<br>Rank: " + (lvl >= 60 ? "💎 60-100 hari" : "⚒️ 15-59 hari");
-                    btnList.style.display = "block"; // Munculkan tombol list
+                    btnList.style.display = "block";
                 } else {
                     hasilEl.style.color = "#FF5555";
                     hasilEl.innerHTML = "❌ Nama tidak ditemukan!";
                 }
                 btnCek.disabled = false;
-            }, 2000); // Loading selama 2 detik
+            }, 1500);
         }
     </script>
 </body>
